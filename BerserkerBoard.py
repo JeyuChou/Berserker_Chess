@@ -58,7 +58,12 @@ class BerserkerBoard(chess.Board):
     def generate_legal_moves(self, from_mask: int = chess.BB_ALL, to_mask: int = chess.BB_ALL):
         yield from super().generate_legal_moves(from_mask, to_mask)
         #if bonus, allow null
-        if self.is_bonus_turn and not self.is_check():
+        if(
+            self.is_bonus_turn
+            and not self.is_check()
+            and from_mask & chess.BB_A1
+            and to_mask & chess.BB_A1
+        ):
             yield chess.Move.null()
 
     def is_legal(self, move: chess.Move) -> bool:

@@ -81,8 +81,13 @@ def test_berserker_board():
     # White pawn on e7, Black rook on d8 (not giving check on d8=Q)
     promo_board = BerserkerBoard("3r3k/4P3/8/8/8/8/8/4K3 w - - 0 1")
     promo_board.push_san("exd8=Q")  # Capture + promotion without check
-    assert promo_board.is_bonus_turn is True
-    assert promo_board.turn == chess.WHITE
+    assert promo_board.is_bonus_turn is False #false since check
+    assert promo_board.turn == chess.BLACK
+
+    promo2 = BerserkerBoard('3r4/4P2k/8/8/8/8/8/4K3 w - - 0 1')
+    promo2.push_san("exd8=Q")
+    assert promo2.is_bonus_turn is True
+    assert promo2.turn == chess.WHITE
 
     # Quiet promotion (no capture) should NOT grant a bonus move
     quiet_promo = BerserkerBoard("7k/4P3/8/8/8/8/8/4K3 w - - 0 1")
